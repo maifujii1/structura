@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Structura restructures supported text formats into concise visual structures entirely in your browser.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Structura — See the structure in your information</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="#" class="brand">
+      <span class="brand-mark"><i></i><i></i><i></i></span>
+      <strong>Structura</strong>
+      <span class="version">v3.12</span>
+    </a>
+
+    <div class="header-actions">
+      <span class="local-badge"><i></i>100% local</span>
+      <button id="themeToggle" class="round-button" type="button" aria-label="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Information restructuring — no AI required</span>
+      <h1>Keep what matters.<br><em>See how it connects.</em></h1>
+      <p>Paste structured-but-messy information, choose the format it already resembles, and Structura extracts only what can be parsed reliably without AI.</p>
+    </section>
+
+    <section class="app-shell">
+      <nav id="modeBar" class="mode-bar" aria-label="Transformation mode">
+        <button class="mode active" data-mode="process"><b>↳</b><span>Process Flow</span></button>
+        <button class="mode" data-mode="business"><b>▦</b><span>Business Brief</span></button>
+        <button class="mode" data-mode="study"><b>⌘</b><span>Study Map</span></button>
+        <button class="mode" data-mode="timeline"><b>◴</b><span>Timeline</span></button>
+        <button class="mode" data-mode="decision"><b>◇</b><span>Decision Tree</span></button>
+        <button class="mode" data-mode="recipe"><b>✦</b><span>Recipe Flow</span></button>
+      </nav>
+
+      <div class="control-bar">
+        <div class="mode-copy">
+          <span class="mini-label">Selected mode</span>
+          <div>
+            <h2 id="modeTitle">Process Flow</h2>
+            <p id="modeDescription">Best for SOPs, procedures, workflows, and numbered instructions.</p>
+          </div>
+        </div>
+
+        <div class="control-groups">
+          <div id="studyTypeGroup" class="control-group study-type-group" hidden>
+            <span class="control-label">Study input</span>
+            <div id="studyTypeControl" class="segmented study-types">
+              <button class="segment active" data-study-type="textbook">Textbook</button>
+              <button class="segment" data-study-type="lecture">Lecture / Bullets</button>
+              <button class="segment" data-study-type="definitions">Definitions</button>
+              <button class="segment" data-study-type="stem">Math / STEM</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">Compression</span>
+            <div id="detailControl" class="segmented">
+              <button class="segment active" data-detail="concise">Concise</button>
+              <button class="segment" data-detail="standard">Standard</button>
+              <button class="segment" data-detail="detailed">Detailed</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <span class="control-label">Output</span>
+            <div id="outputControl" class="segmented">
+              <button class="segment" data-output="text">Text</button>
+              <button class="segment" data-output="visual">Visual</button>
+              <button class="segment active" data-output="both">Both</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <section class="panel input-panel">
+          <div class="panel-head">
+            <div class="panel-title"><span class="step-num">01</span><h3>Source</h3></div>
+            <div>
+              <button id="loadExample" class="text-button">Load example</button>
+              <button id="clearInput" class="text-button">Clear</button>
+            </div>
+          </div>
+
+          <div class="editor-wrap">
+            <textarea id="sourceText" maxlength="100000" spellcheck="true" placeholder="Paste a recipe, process, business report, lecture notes, policy, timeline, or other messy block of text…"></textarea>
+            <div class="editor-meta">
+              <span id="charCount">0 characters</span>
+              <span>Your text never leaves this browser</span>
+            </div>
+          </div>
+
+          <div class="input-foot">
+            <div class="rule-note">
+              <span>✦</span>
+              <div>
+                <strong id="ruleTitle">Signal-first extraction</strong>
+                <small id="ruleDescription">Concise mode keeps only the strongest actions, decisions, and constraints.</small>
+              </div>
+            </div>
+            <button id="transformButton" class="primary-button">
+              <span>Restructure</span><b>→</b>
+            </button>
+          </div>
+        </section>
+
+        <section class="panel output-panel">
+          <div class="panel-head">
+            <div class="panel-title"><span class="step-num">02</span><h3>Structure</h3></div>
+            <div>
+              <button id="copyOutput" class="icon-button" title="Copy concise text">⧉</button>
+              <button id="downloadOutput" class="icon-button" title="Download concise text">↓</button>
+            </div>
+          </div>
+
+          <div id="outputStage" class="output-stage empty-state" aria-live="polite">
+            <div class="empty-diagram"><span></span><i></i><span></span><i></i><span></span></div>
+            <h4>Less text. More structure.</h4>
+            <p>Paste something on the left and Structura will filter it using deterministic parsing rules.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="principles">
+      <div class="principles-intro">
+        <span class="eyebrow">How it works</span>
+        <h2>No API. No model download. No hidden black box.</h2>
+      </div>
+      <div class="principle-grid">
+        <article><span>01</span><h3>Detect structure</h3><p>Dates, units, quantities, action verbs, decisions, risks, metrics, and domain-specific signals are recognized directly in your text.</p></article>
+        <article><span>02</span><h3>Rank the signal</h3><p>Mode-specific scoring keeps the most useful sentences and removes repeated, low-value, or website-style filler.</p></article>
+        <article><span>03</span><h3>Visualize it</h3><p>The extracted structure is rendered as purpose-built diagrams instead of simply returning another paragraph.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>Structura</strong><span>Browser-native information restructuring</span></div>
+    <span>HTML · CSS · JavaScript</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
